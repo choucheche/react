@@ -1,0 +1,5 @@
+Browser.js 的作用是将 JSX 语法转为 JavaScript 语法，这一步很消耗时间，实际上线的时候，应该将它放到服务器完成。
+
+$ babel src --out-dir build
+
+上面命令可以将 src 子目录的 js 文件进行语法转换，转码后的文件全部放在 build 子目录。

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="example"></div>
+
+  <script src="../react.min.js"></script>
+  <script src="../react-dom.min.js"></script>
+  <script src="../browser.min.js"></script>
+  <script src="../jquery-1.11.1.min.js"></script>
+  <script type="text/babel">
+  var UserGist = React.createClass({
+    getInitialState: function() {
+      return {
+        username: '',
+        lastGistUrl: ''
+      };
+    },
+
+    componentDidMount: function() {
+      $.get(this.props.source, function(result) {
+        //ajax get 到下面 source属性的地址 
+        var lastGist = result[0];
+        if (this.isMounted()) {
+          this.setState({
+            username: lastGist.owner.login,
+            lastGistUrl: lastGist.html_url
+          });
+        }
+      }.bind(this));
+    },
+
+    render: function() {
+      return (
+        <div>
+          {this.state.username}s last gist is <a href={this.state.lastGistUrl}>here</a>.
+        </div>
+      );
+    }
+  });
+
+  ReactDOM.render(
+    <UserGist source="https://api.github.com/users/octocat/gists" />,
+    document.getElementById('example')
+    // 必须用上面这个地址
+  );
+  </script>
+</body>
+</html>
